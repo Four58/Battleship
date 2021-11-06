@@ -1,12 +1,14 @@
-import BoardGame from "./components/BoardGame/BoardGame";
-import LoginMenu from "./components/LoginMenu";
-import React, { useEffect, useState } from "react";
-import Counter from "./components/Counter/Counter";
 import "./App.css";
-import Ship from "./components/BoardGame/UserShip/Ship";
+import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logActions } from "./store/log-slice";
+import Counter from "./components/mainbody/game/counter/Counter";
+import LoginMenu from "./components/LoginMenu";
 import MainHeader from "./components/Header/MainHeader";
+import Game from "./components/mainbody/game/Game";
+import Chat from "./components/mainbody/chat/Chat";
+import Lobby from "./Pages/Lobby";
+import { Route, Switch } from "react-router-dom";
 
 function App() {
   const [click, setClicked] = useState(false);
@@ -22,18 +24,20 @@ function App() {
   }, [dispatch]);
 
   return (
-    <div>
-      {!log.login && <LoginMenu />}
-      <MainHeader />
-      <h2>BattleShip game</h2>
-      <h3 id="username">Username: {log.username}</h3>
-      <Counter start={log.login} click={click} Reset={setClicked} />
-      <div className="board-container">
-        <BoardGame player="user" userClick={setClicked} />
-        <BoardGame player="enemy" />
-        <Ship />
-      </div>
-    </div>
+    <Switch>
+      <Route path="/" exact>
+        {!log.login && <LoginMenu />}
+        <MainHeader />
+        <h2>BattleShip game</h2>
+        {/* <h3 id="username">Username: {log.username}</h3> */}
+        <Counter start={log.login} click={click} Reset={setClicked} />
+        <Game />
+        <Chat />
+      </Route>
+      <Route path="/lobby">
+        <Lobby />
+      </Route>
+    </Switch>
   );
 }
 

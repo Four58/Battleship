@@ -8,13 +8,16 @@ import { Provider } from "react-redux";
 import "./index.css";
 import App from "./App";
 
-ReactDOM.render(
-  <BrowserRouter>
-    <Provider store={store}>
-      <DndProvider backend={HTML5Backend}>
-        <App />
-      </DndProvider>
-    </Provider>
-  </BrowserRouter>,
-  document.getElementById("root")
-);
+function Index() {
+  return (
+    <BrowserRouter>
+      <Provider store={store}>
+        <DndProvider backend={HTML5Backend}>
+          <App />
+        </DndProvider>
+      </Provider>
+    </BrowserRouter>
+  );
+}
+
+ReactDOM.render(<Index />, document.getElementById("root"));

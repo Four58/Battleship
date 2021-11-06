@@ -1,6 +1,7 @@
 import { useDispatch } from "react-redux";
 import { logActions } from "../../store/log-slice";
 import classes from "./Nav.module.css";
+import { Link } from "react-router-dom";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const Nav = () => {
     <nav className={classes.nav}>
       <ul>
         <li>
-          <a href="/">Lobby</a>
+          <Link to="/lobby">Lobby</Link>
         </li>
         <li>
           <button onClick={onLogoutHandler}>Logout</button>

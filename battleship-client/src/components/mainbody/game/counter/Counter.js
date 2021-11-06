@@ -10,8 +10,8 @@ const Counter = (props) => {
   useEffect(() => {
     setReset(props.click);
 
-    console.log("Click" + reset);
-    console.log("Login" + checkLog);
+    // console.log("Click" + reset);
+    // console.log("Login" + checkLog);
     const interval = setInterval(() => {
       if (timer > 0 && checkLog && !reset) {
         setTimer((prevCounter) => prevCounter - 1);
@@ -25,7 +25,7 @@ const Counter = (props) => {
     return () => clearInterval(interval);
   }, [checkLog, timer, reset, props]);
 
-  return <h2>Timer: {timer}</h2>;
+  return <h2 className="timer">Timer: {timer}</h2>;
 };
 
 export default Counter;
