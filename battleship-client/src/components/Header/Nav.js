@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { logActions } from "../../store/log-slice";
 import classes from "./Nav.module.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 const Nav = () => {
   const dispatch = useDispatch();
@@ -11,16 +11,30 @@ const Nav = () => {
   };
 
   return (
-    <nav className={classes.nav}>
-      <ul>
-        <li>
-          <Link to="/lobby">Lobby</Link>
-        </li>
-        <li>
-          <button onClick={onLogoutHandler}>Logout</button>
-        </li>
-      </ul>
-    </nav>
+    <header className={classes.header}>
+      <nav className={classes.nav}>
+        <ul>
+          <li>
+            <NavLink activeClassName={classes.active} to="/game">
+              Game
+            </NavLink>
+          </li>
+          <li>
+            <NavLink activeClassName={classes.active} to="/lobby">
+              Lobby
+            </NavLink>
+          </li>
+          <li>
+            <NavLink activeClassName={classes.active} to="/instruction">
+              Instruction
+            </NavLink>
+          </li>
+          <li>
+            <button onClick={onLogoutHandler}>Logout</button>
+          </li>
+        </ul>
+      </nav>
+    </header>
   );
 };
 

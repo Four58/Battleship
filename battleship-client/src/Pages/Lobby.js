@@ -1,5 +1,17 @@
+import CreateRoom from "./CreateRoom";
+import GameRoom from "./GameRoom";
+import LobHeader from "./LobHeader";
+
 const Lobby = () => {
-  return <h1>Hello Kitty</h1>;
+  return (
+    <div>
+      <LobHeader />
+      <main>
+        <CreateRoom />
+        <GameRoom />
+      </main>
+    </div>
+  );
 };
 
 export default Lobby;

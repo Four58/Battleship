@@ -26,6 +26,7 @@ const Chat = () => {
       const data = await response.json();
       const chatTalk = [];
       if (data.username !== name) {
+        console.log(data.chat);
         chatTalk.push(data);
       }
       setChatHistory(chatTalk);
@@ -107,6 +108,7 @@ const Chat = () => {
             style={{ width: "100%", minHeight: "4vh" }}
           />
         </form>
+        <button onClick={fetchData}>Friend Response</button>
       </div>
     </div>
   );

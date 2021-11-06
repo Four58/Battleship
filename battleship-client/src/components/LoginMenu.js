@@ -72,7 +72,7 @@ const LoginMenu = () => {
           onClick={submitUsernameHandler}
           className={classes.submit}
         >
-          Find Game
+          Ok!
         </button>
       </div>
     </div>

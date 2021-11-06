@@ -24,20 +24,24 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Switch>
-      <Route path="/" exact>
-        {!log.login && <LoginMenu />}
-        <MainHeader />
-        <h2>BattleShip game</h2>
-        {/* <h3 id="username">Username: {log.username}</h3> */}
-        <Counter start={log.login} click={click} Reset={setClicked} />
-        <Game />
-        <Chat />
-      </Route>
-      <Route path="/lobby">
-        <Lobby />
-      </Route>
-    </Switch>
+    <div>
+      {!log.login && <LoginMenu />}
+      <MainHeader />
+      <main>
+        <Switch>
+          <Route path="/game" exact>
+            <h2>BattleShip game</h2>
+            {/* <h3 id="username">Username: {log.username}</h3> */}
+            <Counter start={log.login} click={click} Reset={setClicked} />
+            <Game />
+            <Chat />
+          </Route>
+          <Route path="/lobby">
+            <Lobby />
+          </Route>
+        </Switch>
+      </main>
+    </div>
   );
 }
 
