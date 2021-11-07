@@ -1,0 +1,25 @@
+{
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "nodemon": "^2.0.14",
+    "socket.io": "^4.3.1",
+    "socket.io-client": "^4.3.2"
+  },
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "name": "battleship-1",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swsd2544/Battleship-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/swsd2544/Battleship-1/issues"
+  },
+  "homepage": "https://github.com/swsd2544/Battleship-1#readme",
+  "description": ""
+}

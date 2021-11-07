@@ -13,25 +13,19 @@ export default function Square(props) {
       setBgColor("red");
     } else if (!props.square.isShip && props.square.isSelected) {
       setBgColor("black");
+    } else {
+      setBgColor('grey');
     }
   }, [props.square.isShip, props.square.isSelected]);
 
   function handleClick() {
-    // console.log(props.square);
     console.log(`You clicked a square at row ${props.y} column ${props.x}`);
-    console.log();
     dispatch(shoot({ x: props.x, y: props.y, player: props.player }));
   }
 
-  const style = {
-    width: "2rem",
-    height: "2rem",
-    backgroundColor: bgColor,
-  };
-
   return (
     <td>
-      <div onClick={handleClick} x={props.x} y={props.y} style={style}></div>
+      <div onClick={handleClick} x={props.x} y={props.y} style={{ width: "2rem", height: "2rem", backgroundColor: bgColor }}></div>
     </td>
   );
 }
