@@ -34,7 +34,7 @@ function App() {
             {/* <h3 id="username">Username: {log.username}</h3> */}
             <Counter start={log.login} click={click} Reset={setClicked} />
             <Game />
-            <Chat />
+            <Chat roomId="566932" />
           </Route>
           <Route path="/lobby">
             <Lobby />
