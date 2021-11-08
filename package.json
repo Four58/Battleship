@@ -6,7 +6,7 @@
     "socket.io-client": "^4.3.2"
   },
   "scripts": {
-    "start": "nodemon server.js"
+    "start": "nodemon Server.js"
   },
   "name": "battleship-1",
   "version": "1.0.0",

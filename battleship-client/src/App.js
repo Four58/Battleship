@@ -9,6 +9,7 @@ import Game from "./components/mainbody/game/Game";
 import Chat from "./components/mainbody/chat/Chat";
 import Lobby from "./Pages/Lobby";
 import { Route, Switch } from "react-router-dom";
+import Placeholder from "./components/mainbody/game/boardcontainer/board/Placeholder";
 
 function App() {
   const [click, setClicked] = useState(false);
@@ -34,6 +35,7 @@ function App() {
             {/* <h3 id="username">Username: {log.username}</h3> */}
             <Counter start={log.login} click={click} Reset={setClicked} />
             <Game />
+            <Placeholder />
             <Chat roomId="566932" />
           </Route>
           <Route path="/lobby">

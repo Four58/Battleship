@@ -1,0 +1,58 @@
+/*body {
+    background-color: yellow;
+}*/
+
+.bodybox {
+    width: 200px;
+    height: 225px;
+    position: relative;
+    margin: 20px;
+    left: 252px;
+    background-color: darkgray;
+    overflow: auto;
+    border-radius: 5%;
+}
+
+.setuptext {
+    margin: 10px;
+}
+
+.subbodybox {
+    width: 200px;
+    height: 184px;
+    background-color: darkblue;
+    border-radius: 5%;
+    overflow: auto;
+}
+
+.ship1 {
+    width: 128px;
+    height: 30px;
+    display: flex;
+    background-color: orange;
+    margin: 10px;
+}
+
+.ship2 {
+    width: 128px;
+    height: 30px;
+    display: flex;
+    background-color: pink;
+    margin: 10px;
+}
+
+.ship3 {
+    width: 128px;
+    height: 30px;
+    display: flex;
+    background-color: purple;
+    margin: 10px;
+}
+
+.ship4 {
+    width: 128px;
+    height: 30px;
+    display: flex;
+    background-color: yellow;
+    margin: 10px;
+}
