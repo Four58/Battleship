@@ -30,7 +30,6 @@ form {
 
 .actions {
   display: flex;
-
   gap: 1rem;
 }
 
@@ -50,7 +49,6 @@ form {
 }
 
 .actions .submit {
-  border: 1px solid #eca446;
   background-color: #eb8d13;
   color: white;
 }

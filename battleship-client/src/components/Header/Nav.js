@@ -1,5 +1,5 @@
 import { useDispatch } from "react-redux";
-import { logActions } from "../../store/log-slice";
+import { logActions } from "../../store/logSlice";
 import classes from "./Nav.module.css";
 import { NavLink } from "react-router-dom";
 

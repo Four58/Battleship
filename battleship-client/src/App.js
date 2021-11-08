@@ -1,17 +1,18 @@
 import "./App.css";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logActions } from "./store/log-slice";
-import Counter from "./components/mainbody/game/counter/Counter";
+import { logActions } from "./store/logSlice";
 import LoginMenu from "./components/LoginMenu";
 import MainHeader from "./components/Header/MainHeader";
-import Game from "./components/mainbody/game/Game";
-import Chat from "./components/mainbody/chat/Chat";
-import Lobby from "./Pages/Lobby";
-import { Route, Switch } from "react-router-dom";
-import Placeholder from "./components/mainbody/game/boardcontainer/board/Placeholder";
+import Lobby from "./pages/Lobby";
+import { Route, Switch, Redirect } from "react-router-dom";
+import useSocket from "./components/hooks/useSocket";
+import NotFound from "./pages/NotFound";
+import Credit from "./pages/Extra/Credit";
+import GameBody from "./components/GameBody";
 
 function App() {
+  const [inData, setOutData] = useSocket();
   const [click, setClicked] = useState(false);
   const log = useSelector((state) => state.log);
   const dispatch = useDispatch();
@@ -30,16 +31,25 @@ function App() {
       <MainHeader />
       <main>
         <Switch>
-          <Route path="/game" exact>
-            <h2>BattleShip game</h2>
-            {/* <h3 id="username">Username: {log.username}</h3> */}
-            <Counter start={log.login} click={click} Reset={setClicked} />
-            <Game />
-            <Placeholder />
-            <Chat roomId="566932" />
+          <Route path="/" exact>
+            <Redirect to="/lobby" />
           </Route>
           <Route path="/lobby">
-            <Lobby />
+            <Lobby inData={inData} setOutData={setOutData} />
+          </Route>
+          <Route path="/game/:roomId" exact>
+            <GameBody
+              click={click}
+              setClicked={setClicked}
+              inData={inData}
+              setOutData={setOutData}
+            />
+          </Route>
+          <Route path="/credit">
+            <Credit />
+          </Route>
+          <Route path="*">
+            <NotFound />
           </Route>
         </Switch>
       </main>

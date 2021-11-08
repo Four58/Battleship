@@ -17,7 +17,7 @@ const Counter = (props) => {
         setTimer((prevCounter) => prevCounter - 1);
       } else {
         setReset(false);
-        props.Reset(false);
+        props.reset(false);
         setTimer(10);
       }
     }, 1000);

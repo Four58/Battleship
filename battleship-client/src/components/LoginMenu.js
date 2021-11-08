@@ -3,7 +3,7 @@ import Modal from "./UI/Modal";
 import classes from "./LoginMenu.module.css";
 import useInput from "./hooks/use-input";
 import { useDispatch } from "react-redux";
-import { logActions } from "../store/log-slice";
+import { logActions } from "../store/logSlice";
 
 const LoginMenu = () => {
   // const username = useRef();
@@ -22,14 +22,16 @@ const LoginMenu = () => {
     onBlurHandler: userNameBlurHandler,
   } = useInput(notEmpty);
 
-  const onClickName = () => {
+  const onClickName = (event) => {
+    event.preventDefault();
     userNameBlurHandler();
     if (userNameValid) {
       setOk((prev) => !prev);
     }
   };
 
-  const submitUsernameHandler = () => {
+  const submitUsernameHandler = (event) => {
+    event.preventDefault();
     if (!userNameValid) {
       return;
     }
@@ -53,7 +55,7 @@ const LoginMenu = () => {
             onBlur={userNameBlurHandler}
           />
         </div>
-        <button type="button" className={classes.button} onClick={onClickName}>
+        <button type="submit" className={classes.button} onClick={onClickName}>
           Enter
         </button>
       </div>
@@ -64,11 +66,11 @@ const LoginMenu = () => {
     <div>
       <h2>Enjoy! {userNameValue}</h2>
       <div className={classes.actions}>
-        <button onClick={onClickName} className={classes.button}>
+        <button type="button" onClick={onClickName} className={classes.button}>
           Back
         </button>
         <button
-          type="button"
+          type="submit"
           onClick={submitUsernameHandler}
           className={classes.submit}
         >

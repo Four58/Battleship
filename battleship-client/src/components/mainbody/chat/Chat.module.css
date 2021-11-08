@@ -36,6 +36,11 @@ body {
   border-radius: 15px;
 }
 
+.chatbox {
+  min-height: 15vh;
+  overflow: auto;
+}
+
 .chatlog {
   font: 15px arial, sans-serif;
 }

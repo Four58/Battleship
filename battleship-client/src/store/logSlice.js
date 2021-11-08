@@ -2,7 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const logSlice = createSlice({
   name: "log",
-  initialState: { username: "", login: false },
+  initialState: {
+    userId: null,
+    username: "",
+    login: false,
+    userJoin: false,
+    roomId: "",
+  },
   reducers: {
     onLogin(state, action) {
       localStorage.setItem("isLoggedIn", "1");
@@ -17,9 +23,19 @@ const logSlice = createSlice({
       state.login = false;
     },
     onLogged(state) {
-      const name = localStorage.getItem("username");
-      state.username = name;
-      state.login = true;
+      // const name = localStorage.getItem("username");
+      // state.username = name;
+      // state.login = true;
+    },
+    joinGame(state, action) {
+      state.userJoin = true;
+      localStorage.setItem("joinGame", "1");
+      localStorage.setItem("Room ID", action.payload.roomId);
+    },
+    leftGame(state, action) {
+      state.userJoin = false;
+      localStorage.setItem("joinGame", "0");
+      localStorage.removeItem("Room ID", action.payload.roomId);
     },
   },
 });
