@@ -21,7 +21,7 @@ const useChat = (username, roomId) => {
   }, [username])
 
   useEffect(() => {
-    console.log(inData);
+    // console.log(inData);
     switch(inData['eventName']) {
       case ESTABLISH_CONNECTION:
         socketId.current = inData['data']['socketId'];
@@ -52,7 +52,7 @@ const useChat = (username, roomId) => {
       dispatch(clearUser());
     });
     
-  }, [dispatch, inData]);
+  }, [dispatch, inData, sendUsername]);
 
   // Sends a message to the server that
   // forwards it to all users in the same room

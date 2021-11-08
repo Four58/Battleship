@@ -17,16 +17,18 @@ io.on("connection", (socket) => {
   const { roomId } = socket.handshake.query;
   socket.emit(ESTABLISH_CONNECTION, { socketId: socket.id });
   console.log(socket.id + " joins the server");
+  socket.join(roomId);
 
   socket.on(SEND_USERNAME_EVENT, (data) => {
     const { username } = data;
     room[roomId] = {...room[roomId], [String(socket.id)]: username };
-    console.log(room[roomId])
-    io.sockets.in(roomId).emit(SEND_USERNAME_EVENT, room[roomId]);
+    // console.log(room)
+    io.in(roomId).emit(SEND_USERNAME_EVENT, room[roomId]);
   })
 
   // Listen for new messages
   socket.on(NEW_CHAT_MESSAGE_EVENT, (data) => {
+    // console.log(data);
     io.in(roomId).emit(NEW_CHAT_MESSAGE_EVENT, data);
   });
 
