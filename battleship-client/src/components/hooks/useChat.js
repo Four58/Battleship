@@ -1,66 +1,69 @@
-import { useEffect, useRef, useState } from "react";
-import socketIOClient from "socket.io-client";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setName, clearUser } from "../../store/enemy-slice";
+import { clearUser, setName } from "../../store/enemy-slice";
+import useSocket from "./useSocket";
 
 const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
 const SEND_USERNAME_EVENT = "sendUsernane";
 const ESTABLISH_CONNECTION = "establishConnection";
-const SOCKET_SERVER_URL = "http://localhost:4000";
+
 
 const useChat = (username, roomId) => {
+  const [inData, setOutData] = useSocket(roomId);
   const [messages, setMessages] = useState([]); // Sent and received messages
-  const socketRef = useRef();
+  const socketId = useRef();
   const dispatch = useDispatch();
 
+  const sendUsername = useCallback(() => {
+    if(username !== '') {
+      setOutData({ eventName: SEND_USERNAME_EVENT, data: { username } });
+    }
+  }, [username])
+
   useEffect(() => {
-    
-    // Creates a WebSocket connection
-    socketRef.current = socketIOClient(SOCKET_SERVER_URL, {
-      query: { roomId },
-    });
+    console.log(inData);
+    switch(inData['eventName']) {
+      case ESTABLISH_CONNECTION:
+        socketId.current = inData['data']['socketId'];
+        sendUsername();
+        break;
 
-    socketRef.current.on(SEND_USERNAME_EVENT, (data) => {
-       const enemyId = Object.keys(data).find(userId => userId !== socketRef.current.id);
-       if (enemyId !== undefined) {
-          console.log(data[String(enemyId)]);
-          dispatch(setName({ username: data[String(enemyId)] }));
-       }
-    })  
-
-    socketRef.current.on(ESTABLISH_CONNECTION, () => {
-        while(username === "") {
-            continue;
+      case SEND_USERNAME_EVENT:
+        const enemyId = Object.keys(inData['data']).find(userId => userId !== socketId.current);
+        if (enemyId !== undefined) {
+            // console.log(inData['data'][String(enemyId)]);
+            dispatch(setName({ username: inData['data'][String(enemyId)] }));
         }
-        socketRef.current.emit(SEND_USERNAME_EVENT, {
-            username: username
-        })
-    })
-    
-    // Listens for incoming messages
-    socketRef.current.on(NEW_CHAT_MESSAGE_EVENT, (message) => {
-      const incomingMessage = {
-        ...message,
-        ownedByCurrentUser: message.senderId === socketRef.current.id,
-      };
-      setMessages((messages) => [...messages, incomingMessage]);
+        break;
+
+      case NEW_CHAT_MESSAGE_EVENT:
+        const incomingMessage = {
+          ...inData['data'],
+          ownedByCurrentUser: inData['data'].senderId === socketId.current,
+        };
+        setMessages((messages) => [...messages, incomingMessage]);
+        break;
+
+      default:
+        break;
+    }
+
+    return (() => {
+      dispatch(clearUser());
     });
     
-    // Destroys the socket reference
-    // when the connection is closed
-    return () => {
-      socketRef.current.disconnect();
-      dispatch(clearUser());
-    };
-  }, [username, roomId, dispatch]);
+  }, [dispatch, inData]);
 
   // Sends a message to the server that
   // forwards it to all users in the same room
   const sendMessage = (messageBody) => {
-    socketRef.current.emit(NEW_CHAT_MESSAGE_EVENT, {
-      body: messageBody,
-      sender: username,
-      senderId: socketRef.current.id,
+    setOutData({
+      eventName: NEW_CHAT_MESSAGE_EVENT,
+      data: {
+        body: messageBody,
+        sender: username,
+        senderId: socketId.current,
+      }
     });
   };
 

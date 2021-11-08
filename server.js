@@ -15,14 +15,13 @@ io.on("connection", (socket) => {
   
   // Join a conversation
   const { roomId } = socket.handshake.query;
-  socket.emit(ESTABLISH_CONNECTION);
-  socket.join(roomId);
-//   console.log(`${socket.id} joined`);
+  socket.emit(ESTABLISH_CONNECTION, { socketId: socket.id });
+  console.log(socket.id + " joins the server");
 
   socket.on(SEND_USERNAME_EVENT, (data) => {
     const { username } = data;
     room[roomId] = {...room[roomId], [String(socket.id)]: username };
-    console.log(room)
+    console.log(room[roomId])
     io.sockets.in(roomId).emit(SEND_USERNAME_EVENT, room[roomId]);
   })
 
@@ -33,6 +32,7 @@ io.on("connection", (socket) => {
 
   // Leave the room if the user closes the socket
   socket.on("disconnect", () => {
+    console.log(socket.id + " leaves the server");
     delete room[roomId];
     socket.leave(roomId);
   });

@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 
 export default function EnemyInfo(props) {
   const enemy = useSelector((state) => state.enemy);
-  console.log(enemy)
 
   return (
     <div>
