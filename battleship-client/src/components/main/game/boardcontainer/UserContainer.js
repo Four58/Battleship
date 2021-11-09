@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { generateUserShips } from "../../../../store/boardGenerate";
-import Board from "./board/Board";
+import Board from "./Board";
 import UserInfo from "./UserInfo";
 
 export default function UserContainer() {

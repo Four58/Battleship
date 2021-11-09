@@ -1,4 +1,4 @@
-import shipimg from "../assets/shipimg.jpeg";
+import shipimg from "../../../assets/shipimg.jpeg";
 import classes from "./LobHeader.module.css";
 
 const LobHeader = () => {

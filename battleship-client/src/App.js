@@ -1,18 +1,18 @@
-import "./App.css";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logActions } from "./store/logSlice";
 import LoginMenu from "./components/LoginMenu";
-import MainHeader from "./components/Header/MainHeader";
-import Lobby from "./pages/Lobby";
-import { Route, Switch, Redirect } from "react-router-dom";
-import useSocket from "./components/hooks/useSocket";
-import NotFound from "./pages/NotFound";
-import Credit from "./pages/Extra/Credit";
-import GameBody from "./components/GameBody";
+import MainHeader from "./components/header/MainHeader";
+import Lobby from "./components/main/lobby/Lobby";
+import { Route, Routes } from "react-router-dom";
+import useSocket from "./hooks/useSocket";
+import NotFound from "./NotFound";
+import Credit from "./components/main/credit/Credit";
+import GameBody from "./components/main/Main";
+
 
 function App() {
-  const [inData, setOutData] = useSocket();
+  const [inData, setOutData, socketId] = useSocket();
   const [click, setClicked] = useState(false);
   const log = useSelector((state) => state.log);
   const dispatch = useDispatch();
@@ -30,28 +30,21 @@ function App() {
       {!log.login && <LoginMenu />}
       <MainHeader />
       <main>
-        <Switch>
-          <Route path="/" exact>
-            <Redirect to="/lobby" />
+        <Routes>
+          <Route path="/">
+            <Route index element={<Lobby inData={inData} setOutData={setOutData} />} />
+            <Route path=":roomId" exact element={
+              <GameBody
+                click={click}
+                setClicked={setClicked}
+                inData={inData}
+                setOutData={setOutData}
+                socketId={socketId}
+              />} />
           </Route>
-          <Route path="/lobby">
-            <Lobby inData={inData} setOutData={setOutData} />
-          </Route>
-          <Route path="/game/:roomId" exact>
-            <GameBody
-              click={click}
-              setClicked={setClicked}
-              inData={inData}
-              setOutData={setOutData}
-            />
-          </Route>
-          <Route path="/credit">
-            <Credit />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
+          <Route path="/credit" element={ <Credit /> } />
+          <Route path="*" element={ <NotFound /> } />
+        </Routes>
       </main>
     </div>
   );

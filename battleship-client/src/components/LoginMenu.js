@@ -1,7 +1,7 @@
 import React, { useState, Fragment } from "react";
-import Modal from "./UI/Modal";
+import Modal from "./ui/Modal";
 import classes from "./LoginMenu.module.css";
-import useInput from "./hooks/use-input";
+import useInput from "../hooks/useInput";
 import { useDispatch } from "react-redux";
 import { logActions } from "../store/logSlice";
 

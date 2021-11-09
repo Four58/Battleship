@@ -1,12 +1,15 @@
 {
   "dependencies": {
+    "concurrently": "^6.3.0",
     "http": "^0.0.1-security",
     "nodemon": "^2.0.14",
     "socket.io": "^4.3.1",
     "socket.io-client": "^4.3.2"
   },
   "scripts": {
-    "start": "nodemon Server.js"
+    "start": "cd battleship-client && npm start",
+    "server": "nodemon Server.js",
+    "dev": "concurrently --kill-others \"npm run start\" \"npm run server\""
   },
   "name": "battleship-1",
   "version": "1.0.0",

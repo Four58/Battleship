@@ -10,7 +10,7 @@ const RoomItem = (props) => {
         <div className={classes.id}>Room ID: {props.roomId}</div>
       </div>
       <div className={classes.actions}>
-        <Link to={`/game/${props.roomId}`}>
+        <Link to={`/${props.roomId}`}>
           <button className={classes.button}>Join</button>
         </Link>
       </div>

@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import Board from "./board/Board";
+import Board from "./Board";
 import EnemyInfo from "./EnemyInfo";
 
 export default function EnemyContainer() {
