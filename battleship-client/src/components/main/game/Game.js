@@ -7,6 +7,7 @@ const Game = () => {
       style={{
         display: "flex",
         justifyContent: "space-evenly",
+        alignItems: "baseline",
         marginBottom: "1vh",
       }}
     >

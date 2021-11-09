@@ -3,24 +3,35 @@ import { logActions } from "../../store/logSlice";
 import classes from "./Nav.module.css";
 import { NavLink } from "react-router-dom";
 
-const Nav = () => {
+const RoomNav = () => {
   const dispatch = useDispatch();
 
   const onLogoutHandler = () => {
     dispatch(logActions.onLogout());
   };
 
+  // const exitPress = () => {
+  //   dispatch(exitActions.isExit());
+  //   console.log("kuay");
+  // };
+
   return (
     <header className={classes.header}>
       <nav className={classes.nav}>
         <ul>
           <li>
-            <NavLink activeclassname={classes.active} to="/">
+            <NavLink
+              to="/"
+              className={(navData) => (navData.isActive ? classes.active : "")}
+            >
               Lobby
             </NavLink>
           </li>
           <li>
-            <NavLink activeclassname={classes.active} to="/instruction">
+            <NavLink
+              to="/instruction"
+              className={(navData) => (navData.isActive ? classes.active : "")}
+            >
               Instruction
             </NavLink>
           </li>
@@ -33,4 +44,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default RoomNav;

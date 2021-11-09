@@ -4,7 +4,13 @@ import { shoot } from "../../../../store/boardGenerate";
 
 export default function Board(props) {
   return (
-    <table style={{ borderSpacing: 0.5 }}>
+    <table
+      style={{
+        borderSpacing: 0.5,
+        padding: "0.5rem",
+        border: "1px solid black",
+      }}
+    >
       <tbody>
         {props.board.map((row, rowIndex) => (
           <tr key={rowIndex}>
@@ -36,7 +42,7 @@ function Square(props) {
     } else if (!props.square.isShip && props.square.isSelected) {
       setBgColor("black");
     } else {
-      setBgColor('grey');
+      setBgColor("grey");
     }
   }, [props.square.isShip, props.square.isSelected]);
 
@@ -47,7 +53,12 @@ function Square(props) {
 
   return (
     <td>
-      <div onClick={handleClick} x={props.x} y={props.y} style={{ width: "2rem", height: "2rem", backgroundColor: bgColor }}></div>
+      <div
+        onClick={handleClick}
+        x={props.x}
+        y={props.y}
+        style={{ width: "2rem", height: "2rem", backgroundColor: bgColor }}
+      ></div>
     </td>
   );
 }

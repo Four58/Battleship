@@ -8,11 +8,9 @@ const useSocket = () => {
   const [inData, setInData] = useState({});
   const [outData, setOutData] = useState({});
   const socketRef = useRef(null);
-  const [socketId, setSocketId] = useState(null);
 
   useEffect(() => {
     socketRef.current = socketIOClient(SOCKET_SERVER_URL, {});
-    setSocketId(socketRef.current.id);
 
     socketRef.current.onAny((eventName, data) => {
       setInData((prev) => ({ ...prev, eventName, data }));
@@ -25,6 +23,7 @@ const useSocket = () => {
   }, []);
 
   useEffect(() => {
+    console.log(outData);
     if (outData["eventName"] && outData["data"]) {
       socketRef.current.emit(outData["eventName"], outData["data"]);
     }
@@ -42,7 +41,7 @@ const useSocket = () => {
     data: PropTypes.any.isRequired,
   };
 
-  return [inData, setOutDataSocket, socketId];
+  return [inData, setOutDataSocket];
 };
 
 export default useSocket;

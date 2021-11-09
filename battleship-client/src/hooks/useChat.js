@@ -12,11 +12,9 @@ const useChat = (username, socketId, inData, setOutData) => {
   useEffect(() => {
     switch (inData["eventName"]) {
       case SEND_USERNAME_EVENT:
-        const enemyId = Object.keys(inData["data"]).find(
-          (userId) => userId !== socketId
-        );
-        if (enemyId !== undefined) {
-          dispatch(setName({ username: inData["data"][String(enemyId)] }));
+        if (inData["data"] !== undefined) {
+          console.log(inData["data"]);
+          dispatch(setName({ username: inData["data"]["username"] }));
         }
         break;
 
@@ -46,7 +44,7 @@ const useChat = (username, socketId, inData, setOutData) => {
       data: {
         body: messageBody,
         sender: username,
-        senderId: socketId.current,
+        senderId: socketId,
       },
     });
   };

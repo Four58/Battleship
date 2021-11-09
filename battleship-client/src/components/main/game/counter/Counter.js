@@ -8,6 +8,7 @@ const Counter = (props) => {
   const checkLog = useSelector((state) => state.log.login);
 
   useEffect(() => {
+    console.log("useeffect timeer");
     setReset(props.click);
 
     // console.log("Click" + reset);

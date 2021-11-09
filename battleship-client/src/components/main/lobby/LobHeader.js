@@ -4,7 +4,7 @@ import classes from "./LobHeader.module.css";
 const LobHeader = () => {
   return (
     <div className={classes["main-image"]}>
-      <a href="/credit">
+      <a href="/credit" title="See Credits">
         <img src={shipimg} alt="Ship shooting!" />
       </a>
     </div>

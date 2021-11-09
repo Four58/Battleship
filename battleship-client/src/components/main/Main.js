@@ -1,14 +1,23 @@
 import { Fragment } from "react";
 import Counter from "./game/counter/Counter";
 import Game from "./game/Game";
-import { useParams } from "react-router-dom";
+import { Prompt } from "react-router-dom";
 import Chat from "./chat/Chat";
+import GameHeader from "../Header/GameHeader";
 
 const Main = (props) => {
-  const roomId = useParams().roomId;
-  
+  const showMessage = () => {
+    console.log("hi");
+  };
+
   return (
-    <>
+    <Fragment>
+      <GameHeader />
+      <Prompt
+        when={true}
+        message="Are you sure you want to leave?"
+        onConfirm={showMessage}
+      />
       <Counter click={props.click} reset={props.setClicked} />
       <Game />
       <Chat
@@ -16,7 +25,7 @@ const Main = (props) => {
         inData={props.inData}
         setOutData={props.setOutData}
       />
-    </>
+    </Fragment>
   );
 };
 

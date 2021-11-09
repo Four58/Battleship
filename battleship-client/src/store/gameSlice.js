@@ -40,6 +40,7 @@ const gameSlice = createSlice({
           },
         ],
       };
+      console.log("Room id from redux" + newRoom.roomId);
       // localStorage.setItem("joinGame", "1");
       // localStorage.setItem("Room ID", action.payload.room.roomId);
       state.room = [...state.room, newRoom];
@@ -53,6 +54,7 @@ const gameSlice = createSlice({
         const existingRoomIndex = state.room.findIndex(
           (item) => item.roomId === id
         );
+        console.log(existingRoomIndex);
         state.room.splice(existingRoomIndex, 1);
       }
       if (state.userAmount === 2) {

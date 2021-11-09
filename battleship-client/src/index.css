@@ -12,3 +12,26 @@ body {
   margin: 0;
   background-color: white;
 }
+
+.centered {
+  margin: 3rem auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centered h1 {
+  color: red;
+  font-family: cursive;
+  font-size: 1.5rem;
+  position: absolute;
+
+  top: 50%;
+
+  left: 50%;
+
+  transform: translate(-50%, -50%);
+
+  margin: 0;
+}

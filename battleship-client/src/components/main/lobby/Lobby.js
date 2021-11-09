@@ -1,10 +1,18 @@
+import { useEffect } from "react";
 import CreateRoom from "./CreateRoom";
-import GameRoom from './GameRoom';
+import GameRoom from "./GameRoom";
 import LobHeader from "./LobHeader";
 import useRoom from "../../../hooks/useRoom";
 
 const Lobby = (props) => {
-  const [rooms, joinRoom, createRoom] = useRoom(props.inData, props.setOutData);
+  const [rooms, joinRoom, createRoom, leaveRoom] = useRoom(
+    props.inData,
+    props.setOutData
+  );
+
+  useEffect(() => {
+    leaveRoom();
+  }, [leaveRoom]);
 
   return (
     <div>

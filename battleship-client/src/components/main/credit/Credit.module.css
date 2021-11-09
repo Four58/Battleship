@@ -1,0 +1,21 @@
+.name_container {
+  position: absolute;
+  left: 200px;
+  top: 150px;
+}
+
+.name_container div {
+  padding: 30px;
+}
+
+.name_container a {
+  color: rgb(151, 51, 4);
+  font-size: 50px;
+  text-decoration: none;
+  transition: all 40ms;
+}
+
+.name_container a:hover {
+  color: rgb(200, 51, 4);
+  font-size: 52px;
+}

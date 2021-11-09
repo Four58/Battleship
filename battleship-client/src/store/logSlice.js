@@ -23,9 +23,9 @@ const logSlice = createSlice({
       state.login = false;
     },
     onLogged(state) {
-      // const name = localStorage.getItem("username");
-      // state.username = name;
-      // state.login = true;
+      const name = localStorage.getItem("username");
+      state.username = name;
+      state.login = true;
     },
     joinGame(state, action) {
       state.userJoin = true;
@@ -35,7 +35,7 @@ const logSlice = createSlice({
     leftGame(state, action) {
       state.userJoin = false;
       localStorage.setItem("joinGame", "0");
-      localStorage.removeItem("Room ID", action.payload.roomId);
+      //localStorage.removeItem("Room ID", action.payload.roomId);
     },
   },
 });

@@ -1,11 +1,9 @@
 import classes from "./MainHeader.module.css";
-import Music from "./Music";
 import Nav from "./Nav";
 
 const MainHeader = () => {
   return (
     <header className={classes["main-header"]}>
-      <Music />
       <h1>BattleShip</h1>
       <Nav />
     </header>
