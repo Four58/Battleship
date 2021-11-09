@@ -20,6 +20,7 @@ const LoginMenu = () => {
     touchInvalid: userNameTouchInvalid,
     onChangeHandler: userNameChangeHandler,
     onBlurHandler: userNameBlurHandler,
+    name,
   } = useInput(notEmpty);
 
   const onClickName = (event) => {
@@ -48,6 +49,7 @@ const LoginMenu = () => {
       <h1>Welcome to Battleship!</h1>
       <div className={classes.actions}>
         <div className={nameClasses}>
+          <img src={name} alt="random avatar" width="50" height="50" />
           <label>Username: </label>
           <input
             value={userNameValue}
