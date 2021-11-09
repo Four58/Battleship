@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import classes from "./Chat.module.css";
 import { useSelector } from "react-redux";
-import useChat from "../../hooks/useChat";
+import useChat from "../../../hooks/useChat";
 
 const Chat = (props) => {
   const username = useSelector((state) => state.log.username);

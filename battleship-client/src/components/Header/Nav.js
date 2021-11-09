@@ -15,17 +15,12 @@ const Nav = () => {
       <nav className={classes.nav}>
         <ul>
           <li>
-            <NavLink activeClassName={classes.active} to="/game">
-              Game
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName={classes.active} to="/lobby">
+            <NavLink activeclassname={classes.active} to="/">
               Lobby
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName={classes.active} to="/instruction">
+            <NavLink activeclassname={classes.active} to="/instruction">
               Instruction
             </NavLink>
           </li>

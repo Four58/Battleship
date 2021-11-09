@@ -1,8 +1,30 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { shoot } from "../../../../../store/boardGenerate";
+import { shoot } from "../../../../store/boardGenerate";
 
-export default function Square(props) {
+export default function Board(props) {
+  return (
+    <table style={{ borderSpacing: 0.5 }}>
+      <tbody>
+        {props.board.map((row, rowIndex) => (
+          <tr key={rowIndex}>
+            {row.map((square, colIndex) => (
+              <Square
+                key={rowIndex + "" + colIndex}
+                x={colIndex}
+                y={rowIndex}
+                square={square}
+                player={props.player}
+              />
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+function Square(props) {
   const [bgColor, setBgColor] = useState("grey");
   const dispatch = useDispatch();
 

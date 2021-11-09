@@ -1,43 +1,32 @@
 import { useEffect, useState } from "react";
 import niceMusic from "../../assets/music.mp3";
 
-const audio = new Audio(niceMusic);
+
+const useAudio = () => {
+  const [audio] = useState(new Audio(niceMusic));
+  const [playing, setPlaying] = useState(false);
+
+  const toggle = () => setPlaying(!playing);
+
+  useEffect(() => {
+      playing ? audio.play() : audio.pause();
+    },
+    [audio, playing]
+  );
+
+  useEffect(() => {
+    audio.addEventListener('ended', () => setPlaying(false));
+    return () => {
+      audio.removeEventListener('ended', () => setPlaying(false));
+    };
+  }, []);
+
+  return [playing, toggle];
+};
 
 const Music = () => {
-  const [songPlaying, setSongPlaying] = useState(true);
+  const [playing, toggle] = useAudio();
 
-  // useEffect(() => {
-  //   audio.play();
-  //   // console.log("2");
-  //   return () => {
-  //     audio.pause();
-  //     // console.log("1");
-  //   };
-  // }, []);
-
-  // useEffect(() => {
-  //   console.log(songPlaying);
-  //   if (songPlaying) {
-  //     console.log("start");
-  //     audio.play();
-  //   } else {
-  //     console.log("pause");
-  //     audio.pause();
-  //   }
-  // }, [songPlaying]);
-
-  const songToggleHandler = () => {
-    // setSongPlaying((prev) => !prev);
-    // console.log(songPlaying);
-    // if (songPlaying) {
-    //   console.log("start");
-    //   audio.play();
-    // } else {
-    //   console.log("pause");
-    //   audio.pause();
-    // }
-  };
-
-  return <button onClick={songToggleHandler}>Play/Pause</button>;
+  return <button onClick={ toggle }>{ playing ? "pause" : "play" }</button>;
 };
 export default Music;

@@ -7,10 +7,12 @@ const SOCKET_SERVER_URL = "http://localhost:4000";
 const useSocket = () => {
   const [inData, setInData] = useState({});
   const [outData, setOutData] = useState({});
-  const socketRef = useRef();
+  const socketRef = useRef(null);
+  const [socketId, setSocketId] = useState(null);
 
   useEffect(() => {
     socketRef.current = socketIOClient(SOCKET_SERVER_URL, {});
+    setSocketId(socketRef.current.id);
 
     socketRef.current.onAny((eventName, data) => {
       setInData((prev) => ({ ...prev, eventName, data }));
@@ -40,7 +42,7 @@ const useSocket = () => {
     data: PropTypes.any.isRequired,
   };
 
-  return [inData, setOutDataSocket];
+  return [inData, setOutDataSocket, socketId];
 };
 
 export default useSocket;

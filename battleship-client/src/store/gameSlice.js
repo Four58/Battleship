@@ -23,7 +23,7 @@ const gameSlice = createSlice({
       }
     },
     createGame(state, action) {
-      console.log(action.payload);
+      // console.log(action.payload);
       const { roomId, roomName, description, userId, username } =
         action.payload;
       const newRoom = {

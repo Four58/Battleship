@@ -1,39 +1,19 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { clearUser, setName } from "../../store/enemySlice";
-import useSocket from "./useSocket";
+import { clearUser, setName } from "../store/enemySlice";
 
 const NEW_CHAT_MESSAGE_EVENT = "newChatMessage"; // Name of the event
 const SEND_USERNAME_EVENT = "sendUsernane";
-const ESTABLISH_CONNECTION = "establishConnection";
-const JOIN_ROOM = "joinRoom";
 
-const useChat = (username, roomId, inData, setOutData) => {
-  // const [inData, setOutData] = useSocket(roomId);
+const useChat = (username, socketId, inData, setOutData) => {
   const [messages, setMessages] = useState([]); // Sent and received messages
-  const socketId = useRef();
   const dispatch = useDispatch();
-
-  const joinRoom = useCallback(() => {
-    setOutData({ eventName: JOIN_ROOM, data: { roomId, username } });
-  }, [roomId, username]);
-
-  // const sendUsername = useCallback(() => {
-  //   if (username !== "") {
-  //     setOutData({ eventName: SEND_USERNAME_EVENT, data: { username } });
-  //   }
-  // }, [username]);
 
   useEffect(() => {
     switch (inData["eventName"]) {
-      case ESTABLISH_CONNECTION:
-        socketId.current = inData["data"]["socketId"];
-        joinRoom();
-        break;
-
       case SEND_USERNAME_EVENT:
         const enemyId = Object.keys(inData["data"]).find(
-          (userId) => userId !== socketId.current
+          (userId) => userId !== socketId
         );
         if (enemyId !== undefined) {
           dispatch(setName({ username: inData["data"][String(enemyId)] }));
@@ -44,7 +24,7 @@ const useChat = (username, roomId, inData, setOutData) => {
         console.log(inData);
         const incomingMessage = {
           ...inData["data"],
-          ownedByCurrentUser: inData["data"].senderId === socketId.current,
+          ownedByCurrentUser: inData["data"].senderId === socketId,
         };
         setMessages((messages) => [...messages, incomingMessage]);
         break;
@@ -56,7 +36,7 @@ const useChat = (username, roomId, inData, setOutData) => {
     return () => {
       dispatch(clearUser());
     };
-  }, [dispatch, inData, joinRoom]);
+  }, [dispatch, inData, socketId]);
 
   // Sends a message to the server that
   // forwards it to all users in the same room
