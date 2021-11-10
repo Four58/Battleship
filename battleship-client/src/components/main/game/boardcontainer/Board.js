@@ -37,6 +37,7 @@ function Square(props) {
   useEffect(() => {
     if (props.square.isShip && !props.square.isSelected) {
       setBgColor("green");
+      if (props.player === "enemy") setBgColor("blue");
     } else if (props.square.isShip && props.square.isSelected) {
       setBgColor("red");
     } else if (!props.square.isShip && props.square.isSelected) {
@@ -44,7 +45,7 @@ function Square(props) {
     } else {
       setBgColor("grey");
     }
-  }, [props.square.isShip, props.square.isSelected]);
+  }, [props.square.isShip, props.square.isSelected, props.player]);
 
   function handleClick() {
     console.log(`You clicked a square at row ${props.y} column ${props.x}`);
@@ -54,9 +55,10 @@ function Square(props) {
   return (
     <td>
       <div
+        className="square"
         onClick={handleClick}
-        x={props.x}
-        y={props.y}
+        data-x={props.x}
+        data-y={props.y}
         style={{ width: "2rem", height: "2rem", backgroundColor: bgColor }}
       ></div>
     </td>

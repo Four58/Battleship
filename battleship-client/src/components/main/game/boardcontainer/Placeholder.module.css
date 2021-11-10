@@ -1,0 +1,106 @@
+/*body {
+    background-color: yellow;
+}
+
+.bodybox {
+    position: relative;
+    margin-top: 20px;
+    left: 350px; 
+    width: 11rem;
+    height: 16rem;
+    background-color: darkgray;
+    overflow: auto;
+    border-radius: 5%;
+}*/
+
+.bodybox {
+  display: flex;
+  justify-content: right;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.subbodybox {
+  display: flex;
+  width: 11rem;
+  height: 12rem;
+  background-color: darkblue;
+  border-radius: 5%;
+  overflow: auto;
+}
+
+.ship {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 1vmin;
+  border-radius: 2.3vmin;
+}
+
+.ship div {
+  width: 2rem;
+  height: 2rem;
+}
+
+.ship1container {
+  width: 8rem;
+  height: 2rem;
+  display: flex;
+  background-color: green;
+  margin: 10px;
+}
+
+.ship1containervertical {
+  width: 2rem;
+  height: 8rem;
+  display: flex;
+  background-color: green;
+  margin: 10px;
+}
+
+.ship2container {
+  width: 8rem;
+  height: 2rem;
+  display: flex;
+  background-color: green;
+  margin: 10px;
+}
+
+.ship2containervertical {
+  width: 2rem;
+  height: 8rem;
+  display: flex;
+  background-color: green;
+  margin: 10px;
+}
+
+.ship3container {
+  width: 8rem;
+  height: 2rem;
+  display: flex;
+  background-color: green;
+  margin: 10px;
+}
+
+.ship3containervertical {
+  width: 2rem;
+  height: 8rem;
+  display: flex;
+  background-color: green;
+  margin: 10px;
+}
+
+.ship4container {
+  width: 8rem;
+  height: 2rem;
+  display: flex;
+  background-color: green;
+  margin: 10px;
+}
+
+.ship4containervertical {
+  width: 2rem;
+  height: 8rem;
+  display: flex;
+  background-color: green;
+  margin: 10px;
+}

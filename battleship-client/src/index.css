@@ -11,6 +11,10 @@ html {
 body {
   margin: 0;
   background-color: white;
+  font: 15px arial, sans-serif;
+  background-color: #d9d9d9;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .centered {

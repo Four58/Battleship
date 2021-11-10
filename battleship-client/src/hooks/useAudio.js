@@ -6,11 +6,12 @@ const useAudio = (music) => {
 
   //   const toggle = () => setPlaying(!playing);
   useEffect(() => {
+    audio.volume = 0.2;
     audio.play();
     return () => {
       audio.pause();
     };
-  }, []);
+  }, [audio]);
 
   useEffect(() => {
     playing ? audio.play() : audio.pause();

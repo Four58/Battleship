@@ -1,24 +1,36 @@
 import { useState, useEffect, useRef } from "react";
 import classes from "./Chat.module.css";
-import { useSelector } from "react-redux";
-import useChat from "../../../hooks/useChat";
+import { useContext, useCallback } from "react";
+import { SocketContext } from "../../../context/socket";
 
+const NEW_CHAT_MESSAGE_EVENT = "newChatMessage";
 const Chat = (props) => {
-  const username = useSelector((state) => state.log.username);
-  const [messages, sendMessage] = useChat(
-    username,
-    props.roomId,
-    props.inData,
-    props.setOutData
-  ); // Creates a websocket and manages messaging
+  const socket = useContext(SocketContext);
   const [newMessage, setNewMessage] = useState(""); // Message to be sent
   const messagesRef = useRef(null);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    sendMessage(newMessage);
-    setNewMessage("");
-  };
+  const handleSubmit = useCallback(
+    (event) => {
+      event.preventDefault();
+      socket.emit(NEW_CHAT_MESSAGE_EVENT, {
+        senderId: socket.id,
+        body: newMessage,
+      });
+      setNewMessage("");
+    },
+    [socket, newMessage]
+  );
+
+  const handleNewMessage = useCallback(
+    (message) => {
+      const newMessageFromSocket = {
+        ...message,
+        ownedByCurrentUser: socket.id === message.senderId,
+      };
+      props.setMessages((prev) => [...prev, newMessageFromSocket]);
+    },
+    [props, socket.id]
+  );
 
   const scrollToBottom = () => {
     console.log("scrollToBottom");
@@ -30,28 +42,37 @@ const Chat = (props) => {
   };
 
   useEffect(() => {
-    if (messages.length > 3) {
+    socket.on(NEW_CHAT_MESSAGE_EVENT, handleNewMessage);
+
+    return () => {
+      socket.off(NEW_CHAT_MESSAGE_EVENT, handleNewMessage);
+    };
+  }, [socket, handleNewMessage]);
+
+  useEffect(() => {
+    if (props.messages.length > 3) {
       scrollToBottom();
     }
-  }, [messages]);
+  }, [props.messages]);
 
   return (
     <div className={classes.bodybox}>
       <div className={classes.chatborder}>
         <h3>Chat</h3>
         <div className={classes.chatbox}>
-          {messages.map((message, i) => (
-            <p key={i}>
-              <span
-                style={{
-                  color: message.ownedByCurrentUser ? "#1d9cb8" : "#b84b1d",
-                }}
-              >
-                [{message.sender}] {}
-              </span>
-              {message.body}
-            </p>
-          ))}
+          {props.messages !== [] &&
+            props.messages.map((message, index) => (
+              <p key={index}>
+                <span
+                  style={{
+                    color: message.ownedByCurrentUser ? "#1d9cb8" : "#b84b1d",
+                  }}
+                >
+                  [{message.sender}] {}
+                </span>
+                {message.body}
+              </p>
+            ))}
           <p ref={messagesRef} />
         </div>
         <form onSubmit={handleSubmit} style={{ width: "100%" }}>

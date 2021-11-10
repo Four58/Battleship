@@ -27,12 +27,12 @@ const logSlice = createSlice({
       state.username = name;
       state.login = true;
     },
-    joinGame(state, action) {
+    joinGame(state) {
       state.userJoin = true;
       localStorage.setItem("joinGame", "1");
-      localStorage.setItem("Room ID", action.payload.roomId);
+      //localStorage.setItem("Room ID", action.payload.roomId);
     },
-    leftGame(state, action) {
+    leftGame(state) {
       state.userJoin = false;
       localStorage.setItem("joinGame", "0");
       //localStorage.removeItem("Room ID", action.payload.roomId);

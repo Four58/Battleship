@@ -1,18 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { logActions } from "./store/logSlice";
-import { Route, Switch } from "react-router-dom";
-import useSocket from "./hooks/useSocket";
-import NotFound from "./NotFound";
-import Credit from "./components/main/credit/Credit";
-import Instruction from "./components/main/Instruction/Instruction";
+import { Route, Switch, useHistory } from "react-router-dom";
 import LoginMenu from "./components/LoginMenu";
-import Lobby from "./components/main/lobby/Lobby";
 import MainHeader from "./components/Header/MainHeader";
-import Main from "./components/main/Main";
+import { socket, SocketContext } from "./context/socket";
+import LoadingSpinner from "./components/UI/LoadingSpinner";
+
+const Main = React.lazy(() => import("./components/main/Main"));
+const Credit = React.lazy(() => import("./components/main/credit/Credit"));
+const Instruction = React.lazy(() =>
+  import("./components/main/Instruction/Instruction")
+);
+const Admin = React.lazy(() => import("./admin/Admin"));
+const NotFound = React.lazy(() => import("./NotFound"));
+const Lobby = React.lazy(() => import("./components/main/lobby/Lobby"));
+
+const SEND_USERNAME_EVENT = "sendUsernane";
 
 function App() {
-  const [inData, setOutData, socketId] = useSocket();
+  const history = useHistory();
   const [click, setClicked] = useState(false);
   const log = useSelector((state) => state.log);
   const dispatch = useDispatch();
@@ -21,9 +28,16 @@ function App() {
     const loginInfo = localStorage.getItem("isLoggedIn");
 
     if (loginInfo === "1") {
+      console.log("sending username");
+      const username = localStorage.getItem("username");
+      socket.emit(SEND_USERNAME_EVENT, { username });
       dispatch(logActions.onLogged());
     }
   }, [dispatch]);
+
+  const backToLobby = () => {
+    history.replace("/");
+  };
 
   useEffect(() => {
     if (log.userJoin) {
@@ -38,33 +52,42 @@ function App() {
   }, [log.userJoin]);
 
   return (
-    <>
+    <SocketContext.Provider value={socket}>
       {!log.login && <LoginMenu />}
-      <MainHeader />
-      <Switch>
-        <Route exact path="/">
-          <Lobby inData={inData} setOutData={setOutData} />
-        </Route>
-        <Route path="/instruction">
-          <Instruction />
-        </Route>
-        <Route path="/credit">
-          <Credit />
-        </Route>
-        <Route path="/game/:roomId">
-          <Main
-            click={click}
-            setClicked={setClicked}
-            inData={inData}
-            setOutData={setOutData}
-            socketId={socketId}
-          />
-        </Route>
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
-    </>
+      <Suspense
+        fallback={
+          <div className="centered">
+            <LoadingSpinner />
+          </div>
+        }
+      >
+        <Switch>
+          <Route exact path="/">
+            <MainHeader />
+            <Lobby />
+          </Route>
+          <Route path="/instruction">
+            <MainHeader />
+            <Instruction />
+          </Route>
+          <Route path="/credit">
+            <MainHeader />
+            <Credit />
+          </Route>
+          <Route path="/game/:roomId">
+            <Main click={click} setClicked={setClicked} />
+          </Route>
+          <Route path="/admin" exact>
+            <MainHeader />
+            <Admin />
+          </Route>
+          <Route path="*">
+            <MainHeader />
+            <NotFound />
+          </Route>
+        </Switch>
+      </Suspense>
+    </SocketContext.Provider>
   );
 }
 

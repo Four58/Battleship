@@ -6,8 +6,6 @@ import { useDispatch } from "react-redux";
 import { logActions } from "../store/logSlice";
 
 const LoginMenu = () => {
-  // const username = useRef();
-
   const notEmpty = (item) => item.trim() !== "";
 
   const [ok, setOk] = useState(false);
@@ -36,7 +34,7 @@ const LoginMenu = () => {
     if (!userNameValid) {
       return;
     }
-    console.log(userNameValue);
+    // console.log(userNameValue);
     dispatch(logActions.onLogin({ username: userNameValue }));
   };
 
@@ -68,6 +66,7 @@ const LoginMenu = () => {
     <div>
       <h2>Enjoy! {userNameValue}</h2>
       <div className={classes.actions}>
+        <img src={name} alt="random avatar" width="50" height="50" />
         <button type="button" onClick={onClickName} className={classes.button}>
           Back
         </button>

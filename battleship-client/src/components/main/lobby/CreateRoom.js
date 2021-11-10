@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useState, useContext, useCallback } from "react";
 import classes from "./CreateRoom.module.css";
-// import { gameActions } from "../../../store/gameSlice";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom/";
-import { useSelector } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { exitActions } from "../../../store/exitSlice";
 import useInput from "../../../hooks/useInput";
 import { logActions } from "../../../store/logSlice";
+import { SocketContext } from "../../../context/socket";
 
 //join link with room id
+const CREATE_ROOM_EVENT = "createRoom";
 
 const CreateRoom = (props) => {
+  const socket = useContext(SocketContext);
   const roomId = uuidv4();
   const [description, setDescription] = useState("");
-  const userInfo = useSelector((state) => state.log);
   const dispatch = useDispatch();
   const notEmpty = (item) => item.trim() !== "";
   const {
@@ -26,17 +26,19 @@ const CreateRoom = (props) => {
   } = useInput(notEmpty);
 
   //const { roomId, roomName, description, userId, username }
-
-  const onCreateGameHandler = () => {
-    const roomData = {
+  const handleCreateRoom = useCallback(() => {
+    socket.emit(CREATE_ROOM_EVENT, {
       roomId,
       roomName,
       description,
-      users: userInfo["username"],
-    };
-    props.createRoom(roomData);
+    });
+  }, [socket, roomId, roomName, description]);
+
+  const onCreateGameHandler = () => {
+    handleCreateRoom();
     dispatch(exitActions.resetExit());
     dispatch(logActions.joinGame(roomId));
+    console.log("created!");
   };
 
   const roomClasses = `${classes.control} ${

@@ -1,7 +1,6 @@
 .name_container {
-  position: absolute;
-  left: 200px;
-  top: 150px;
+  margin-top: 10%;
+  margin-left: 10%;
 }
 
 .name_container div {

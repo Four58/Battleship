@@ -2,9 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 function createEmptyBoard() {
   const board = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 8; i++) {
     board.push([]);
-    for (let j = 0; j < 10; j++) {
+    for (let j = 0; j < 8; j++) {
       board[i].push({
         isShip: false,
         isSelected: false,
@@ -26,8 +26,8 @@ function isSquareValid(board, x, y) {
 
 function createShipInRandom(board) {
   const randomDirection = Math.floor(Math.random() * 2);
-  const randomX = Math.floor(Math.random() * 10);
-  const randomY = Math.floor(Math.random() * 10);
+  const randomX = Math.floor(Math.random() * 8);
+  const randomY = Math.floor(Math.random() * 8);
   const positionOffset = [0, 1, 2, 3];
   if (randomDirection === 0) {
     if (
@@ -85,9 +85,35 @@ const generateBoardSlice = createSlice({
       }
       state.userBoard = board;
     },
+    generateEnemyShips: (state) => {
+      const board = createEmptyBoard();
+      for (let i = 0; i < 4; i++) {
+        createShipInRandom(board);
+      }
+      state.enemyBoard = board;
+    },
     setEnemyBoard: (state, action) => {
       const board = action.payload.board;
       state.enemyBoard = board;
+    },
+    setUserBoard: (state, action) => {
+      const shipPositionsList = action.payload.shipPositions;
+      for (let i = 0; i < shipPositionsList.length; i++) {
+        const positionPairs = shipPositionsList[i];
+        const x = positionPairs[0];
+        const y = positionPairs[1];
+        state.userBoard[y][x].isShip = true;
+      }
+      console.log("set up board successfully");
+    },
+    resetUserBoard: (state) => {
+      /*for (let i = 0; i < 8; i++) {
+        for (let j = 0; j < 8; j++) {
+          state.userBoard[j][i].isShip = false;
+        }
+      }*/
+      const newBoard = createEmptyBoard();
+      state.userBoard = newBoard;
     },
     shoot: (state, action) => {
       const x = action.payload.x;
@@ -111,7 +137,13 @@ const generateBoardSlice = createSlice({
   },
 });
 
-export const { generateUserShips, setEnemyBoard, shoot } =
-  generateBoardSlice.actions;
+export const {
+  generateUserShips,
+  generateEnemyShips,
+  setUserBoard,
+  resetUserBoard,
+  setEnemyBoard,
+  shoot,
+} = generateBoardSlice.actions;
 
 export default generateBoardSlice;

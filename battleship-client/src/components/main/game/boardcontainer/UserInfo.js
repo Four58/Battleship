@@ -1,4 +1,5 @@
 import React from "react";
+import classes from "./UserInfo.module.css";
 import { useSelector } from "react-redux";
 
 export default function UserInfo() {
@@ -10,12 +11,20 @@ export default function UserInfo() {
     <div
       style={{
         display: "flex",
-        alignItems: "center",
+        alignItems: "bottom-right",
         flexDirection: "column",
       }}
     >
-      <h3 style={h3Style}>Name: {username}</h3>
-      <h3 style={h3Style}>Score: 0</h3>
+      <img
+        src={`https://avatars.dicebear.com/api/big-smile/${username}.svg`}
+        alt="random avatar"
+        width="50"
+        height="50"
+      />
+      <div className={classes.control}>
+        <h3 style={h3Style}>Name: {username}</h3>
+        <h3 style={h3Style}>Score: 0</h3>
+      </div>
     </div>
   );
 }

@@ -1,30 +1,46 @@
 import { Fragment } from "react";
 import Counter from "./game/counter/Counter";
+import { useState, useEffect, useContext, useCallback } from "react";
 import Game from "./game/Game";
-import { Prompt } from "react-router-dom";
 import Chat from "./chat/Chat";
 import GameHeader from "../Header/GameHeader";
+import { SocketContext } from "../../context/socket";
+
+const JOIN_ROOM_EVENT = "joinRoom";
+// const NEW_CHAT_MESSAGE_EVENT = "newChatMessage";
 
 const Main = (props) => {
-  const showMessage = () => {
-    console.log("hi");
-  };
+  const socket = useContext(SocketContext);
+  const [messages, setMessages] = useState([]);
+
+  const handleJoinRoom = useCallback(
+    (roomData) => {
+      console.log("Messages setup");
+      const newMessages = roomData.messages.map((message) => {
+        return {
+          ...message,
+          ownedByCurrentUser: socket.id === message.senderId,
+        };
+      });
+      setMessages(newMessages);
+    },
+    [socket.id]
+  );
+
+  useEffect(() => {
+    socket.on(JOIN_ROOM_EVENT, handleJoinRoom);
+
+    return () => {
+      socket.off(JOIN_ROOM_EVENT, handleJoinRoom);
+    };
+  }, [socket, handleJoinRoom]);
 
   return (
     <Fragment>
       <GameHeader />
-      <Prompt
-        when={true}
-        message="Are you sure you want to leave?"
-        onConfirm={showMessage}
-      />
       <Counter click={props.click} reset={props.setClicked} />
       <Game />
-      <Chat
-        socketId={props.socketId}
-        inData={props.inData}
-        setOutData={props.setOutData}
-      />
+      <Chat messages={messages} setMessages={setMessages} />
     </Fragment>
   );
 };

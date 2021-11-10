@@ -23,12 +23,14 @@ const useInput = (check) => {
   const isValid = check(userInput.value);
   const inputInvalid = !isValid && userInput.touched;
   const [name, setName] = useState(
-    "https://avatars.dicebear.com/api/human/seed.svg"
+    "https://avatars.dicebear.com/api/big-smile/seed.svg"
   );
 
   const onChangeHandler = (event) => {
     setUserInput({ type: "change", value: event.target.value });
-    setName(`https://avatars.dicebear.com/api/human/${event.target.value}.svg`);
+    setName(
+      `https://avatars.dicebear.com/api/big-smile/${event.target.value}.svg`
+    );
   };
 
   const onBlurHandler = () => {
