@@ -1,6 +1,12 @@
+.header {
+  font-family: verdana;
+  font-size: 15px;
+}
+
 .header a {
   color: white;
   text-decoration: none;
+  transition: all 500ms ease;
 }
 
 .header a:hover,
@@ -9,6 +15,7 @@
   color: #ffffff;
   padding-bottom: 0.25rem;
   border-bottom: 4px solid #1d9cb8;
+  transition: all 500ms ease;
 }
 
 .nav ul {
@@ -27,11 +34,13 @@
 .nav a {
   text-decoration: none;
   color: white;
+  transition: all 500ms ease;
 }
 
 .nav a:hover,
 .nav a:active {
   color: #072649;
+  transition: all 500ms ease;
 }
 
 .nav button {

@@ -1,9 +1,9 @@
 import { useDispatch } from "react-redux";
-import { logActions } from "../../store/log-slice";
+import { logActions } from "../../store/logSlice";
 import classes from "./Nav.module.css";
 import { NavLink } from "react-router-dom";
 
-const Nav = () => {
+const RoomNav = () => {
   const dispatch = useDispatch();
 
   const onLogoutHandler = () => {
@@ -15,18 +15,22 @@ const Nav = () => {
       <nav className={classes.nav}>
         <ul>
           <li>
-            <NavLink activeClassName={classes.active} to="/game">
-              Game
-            </NavLink>
-          </li>
-          <li>
-            <NavLink activeClassName={classes.active} to="/lobby">
+            <NavLink
+              to="/"
+              className={(navData) => (navData.isActive ? classes.active : "")}
+            >
               Lobby
             </NavLink>
           </li>
           <li>
-            <NavLink activeClassName={classes.active} to="/instruction">
-              Instruction
+            <NavLink to="/instruction">Instruction</NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/game"
+              className={(navData) => (navData.isActive ? classes.active : "")}
+            >
+              Single Player
             </NavLink>
           </li>
           <li>
@@ -38,4 +42,4 @@ const Nav = () => {
   );
 };
 
-export default Nav;
+export default RoomNav;

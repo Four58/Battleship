@@ -1,49 +1,101 @@
-import "./App.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { logActions } from "./store/log-slice";
-import Counter from "./components/mainbody/game/counter/Counter";
+import { logActions } from "./store/logSlice";
+import { Route, Switch } from "react-router-dom";
 import LoginMenu from "./components/LoginMenu";
 import MainHeader from "./components/Header/MainHeader";
-import Game from "./components/mainbody/game/Game";
-import Chat from "./components/mainbody/chat/Chat";
-import Lobby from "./Pages/Lobby";
-import { Route, Switch } from "react-router-dom";
-import Placeholder from "./components/mainbody/game/boardcontainer/board/Placeholder";
+import { socket, SocketContext } from "./context/socket";
+import LoadingSpinner from "./components/UI/LoadingSpinner";
+
+const GameContainer = React.lazy(() =>
+  import("./components/main/GameContainer")
+);
+const Credit = React.lazy(() => import("./components/main/credit/Credit"));
+const Instruction = React.lazy(() =>
+  import("./components/main/Instruction/Instruction")
+);
+const Admin = React.lazy(() => import("./admin/Admin"));
+const NotFound = React.lazy(() => import("./NotFound"));
+const Lobby = React.lazy(() => import("./components/main/lobby/Lobby"));
+
+const SEND_USERNAME_EVENT = "sendUsernane";
+const ESTABLISH_CONNECTION = "establishConnection";
 
 function App() {
-  const [click, setClicked] = useState(false);
   const log = useSelector((state) => state.log);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const loginInfo = localStorage.getItem("isLoggedIn");
-
     if (loginInfo === "1") {
       dispatch(logActions.onLogged());
     }
   }, [dispatch]);
 
+  useEffect(() => {
+    if (log.userJoin) {
+      window.onbeforeunload = function () {
+        return true;
+      };
+    }
+
+    return () => {
+      window.onbeforeunload = null;
+    };
+  }, [log.userJoin]);
+
+  useEffect(() => {
+    const handleConnection = () => {
+      //console.log("Sending username");
+      const username = localStorage.getItem("username");
+      socket.emit(SEND_USERNAME_EVENT, username);
+    };
+    socket.on(ESTABLISH_CONNECTION, handleConnection);
+    return () => {
+      socket.off(ESTABLISH_CONNECTION, handleConnection);
+    };
+  }, []);
+
   return (
-    <div>
+    <SocketContext.Provider value={socket}>
       {!log.login && <LoginMenu />}
-      <MainHeader />
-      <main>
+      <Suspense
+        fallback={
+          <div className="centered">
+            <LoadingSpinner />
+          </div>
+        }
+      >
         <Switch>
-          <Route path="/game" exact>
-            <h2>BattleShip game</h2>
-            {/* <h3 id="username">Username: {log.username}</h3> */}
-            <Counter start={log.login} click={click} Reset={setClicked} />
-            <Game />
-            <Placeholder />
-            <Chat roomId="566932" />
-          </Route>
-          <Route path="/lobby">
+          <Route exact path="/">
+            <MainHeader />
             <Lobby />
           </Route>
+          <Route path="/instruction">
+            <MainHeader />
+            <Instruction />
+          </Route>
+          <Route path="/credit">
+            <MainHeader />
+            <Credit />
+          </Route>
+          <Route path="/game" exact>
+            <GameContainer mode="single" />
+          </Route>
+          <Route path="/game/:roomId">
+            <GameContainer mode="multi" />
+          </Route>
+          <Route path="/admin" exact>
+            <MainHeader />
+            <Admin />
+          </Route>
+          <Route path="*">
+            <MainHeader />
+            <NotFound />
+          </Route>
         </Switch>
-      </main>
-    </div>
+      </Suspense>
+    </SocketContext.Provider>
   );
 }
 
