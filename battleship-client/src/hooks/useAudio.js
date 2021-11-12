@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 
 const useAudio = (music) => {
   const [audio] = useState(new Audio(music));
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
 
   //   const toggle = () => setPlaying(!playing);
   useEffect(() => {
     audio.volume = 0.2;
-    audio.play();
+    // audio.play();
     return () => {
       audio.pause();
     };

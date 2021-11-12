@@ -1,23 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
-  username: "",
-  score: 0,
-};
-
-const EnemySlice = createSlice({
+const enemySlice = createSlice({
   name: "enemy",
-  initialState: initialState,
+  initialState: {
+    name: "",
+    id: "",
+    score: 0,
+    board: [],
+  },
   reducers: {
     setName: (state, action) => {
-      state.username = action.payload.username
+      state.name = action.payload.name;
+      state.id = action.payload.id;
     },
-    clearUser: (state) => {
-      state = {...state, ...initialState};
-    }
+    clearEnemy: (state) => {
+      state.name = "";
+      state.score = 0;
+    },
+    updateScore: (state, action) => {
+      state.score = state.score + action.payload.updateAmount;
+    },
+    resetScore: (state) => {
+      state.score = 0;
+    },
+    takeEnemyBoard: (state, action) => {
+      state.board = action.payload.board;
+    },
   },
 });
 
-export const { setName, clearUser } = EnemySlice.actions;
+export const enemyActions = enemySlice.actions;
 
-export default EnemySlice;
+export default enemySlice;

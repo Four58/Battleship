@@ -1,29 +1,39 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "./Counter.css";
-import { useSelector } from "react-redux";
+import { SocketContext } from "../../../../context/socket";
+
+const CHANGE_CURRENT_PLAYER = "changePlayer";
 
 const Counter = (props) => {
+  const socket = useContext(SocketContext);
   const [timer, setTimer] = useState(10);
-  const [reset, setReset] = useState(false);
-  const checkLog = useSelector((state) => state.log.login);
 
+  //start when game start (both player ready)
+  //start when enemy click
+  //reset when user click
+  //reset when server reset, game reset, game end
   useEffect(() => {
-    setReset(props.click);
-
-    // console.log("Click" + reset);
-    // console.log("Login" + checkLog);
-    const interval = setInterval(() => {
-      if (timer > 0 && checkLog && !reset) {
-        setTimer((prevCounter) => prevCounter - 1);
-      } else {
-        setReset(false);
-        props.reset(false);
-        setTimer(10);
+    const timeInterval = setInterval(() => {
+      if (props.start) {
+        if (props.reset) {
+          setTimer(10);
+          props.setReset(false);
+        } else if (props.player === "user") {
+          setTimer((prevCounter) => prevCounter - 1);
+          if (timer === 0) {
+            setTimer(10);
+            props.setPlayer("enemy");
+            //console.log("Change current player from counter");
+            if (props.mode === "multi") socket.emit(CHANGE_CURRENT_PLAYER);
+          }
+        }
       }
     }, 1000);
 
-    return () => clearInterval(interval);
-  }, [checkLog, timer, reset, props]);
+    return () => {
+      clearInterval(timeInterval);
+    };
+  }, [props, socket, timer]);
 
   return <h2 className="timer">Timer: {timer}</h2>;
 };

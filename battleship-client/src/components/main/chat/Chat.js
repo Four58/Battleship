@@ -13,7 +13,6 @@ const Chat = (props) => {
     (event) => {
       event.preventDefault();
       socket.emit(NEW_CHAT_MESSAGE_EVENT, {
-        senderId: socket.id,
         body: newMessage,
       });
       setNewMessage("");
@@ -33,7 +32,7 @@ const Chat = (props) => {
   );
 
   const scrollToBottom = () => {
-    console.log("scrollToBottom");
+    //console.log("scrollToBottom");
     messagesRef.current.scrollIntoView({
       behavior: "smooth",
       block: "nearest",

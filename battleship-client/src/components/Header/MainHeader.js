@@ -13,7 +13,7 @@ const MainHeader = () => {
         height="50"
       />
       <h4>{username}</h4>
-      <h1>BattleShip</h1>
+      <div>BattleShip</div>
       <Nav />
     </header>
   );

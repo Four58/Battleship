@@ -1,11 +1,15 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useContext } from "react";
 import Modal from "./UI/Modal";
 import classes from "./LoginMenu.module.css";
 import useInput from "../hooks/useInput";
 import { useDispatch } from "react-redux";
 import { logActions } from "../store/logSlice";
+import { SocketContext } from "../context/socket";
+
+const SEND_USERNAME_EVENT = "sendUsernane";
 
 const LoginMenu = () => {
+  const socket = useContext(SocketContext);
   const notEmpty = (item) => item.trim() !== "";
 
   const [ok, setOk] = useState(false);
@@ -34,8 +38,11 @@ const LoginMenu = () => {
     if (!userNameValid) {
       return;
     }
-    // console.log(userNameValue);
-    dispatch(logActions.onLogin({ username: userNameValue }));
+    // //console.log(userNameValue);
+    dispatch(
+      logActions.onLogin({ username: userNameValue, userId: socket.id })
+    );
+    socket.emit(SEND_USERNAME_EVENT, userNameValue);
   };
 
   const nameClasses = `${classes.control} ${
@@ -46,8 +53,8 @@ const LoginMenu = () => {
     <Fragment>
       <h1>Welcome to Battleship!</h1>
       <div className={classes.actions}>
+        <img src={name} alt="random avatar" width="50" height="50" />
         <div className={nameClasses}>
-          <img src={name} alt="random avatar" width="50" height="50" />
           <label>Username: </label>
           <input
             value={userNameValue}

@@ -13,7 +13,9 @@ const logSlice = createSlice({
     onLogin(state, action) {
       localStorage.setItem("isLoggedIn", "1");
       localStorage.setItem("username", action.payload.username);
+      localStorage.setItem("userId", action.payload.userId);
       state.username = action.payload.username;
+      state.userId = action.payload.userId;
       state.login = true;
     },
     onLogout(state) {

@@ -10,11 +10,6 @@ const RoomNav = () => {
     dispatch(logActions.onLogout());
   };
 
-  // const exitPress = () => {
-  //   dispatch(exitActions.isExit());
-  //   console.log("kuay");
-  // };
-
   return (
     <header className={classes.header}>
       <nav className={classes.nav}>
@@ -28,11 +23,14 @@ const RoomNav = () => {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/instruction">Instruction</NavLink>
+          </li>
+          <li>
             <NavLink
-              to="/instruction"
+              to="/game"
               className={(navData) => (navData.isActive ? classes.active : "")}
             >
-              Instruction
+              Single Player
             </NavLink>
           </li>
           <li>

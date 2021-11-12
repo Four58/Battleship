@@ -1,25 +1,24 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { generateUserShips } from "../../../../store/boardGenerate";
+import React from "react";
+import { useSelector } from "react-redux";
 import Board from "./Board";
-import Placeholder from "./Placeholder";
 import UserInfo from "./UserInfo";
 
-export default function UserContainer() {
+export default function UserContainer(props) {
   const board = useSelector((state) => state.generateBoard.userBoard);
-  /*const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(generateUserShips());
-  }, [dispatch]);*/
 
   return (
-    <div>
+    <div style={{ marginTop: "20px" }}>
       <UserInfo />
       <div id="userBoard">
-        <Board board={board} player="user" />
+        <Board board={board} player="user" pressing={false} />
       </div>
-      <Placeholder board={board} />
+      <h3 style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+        {props.currentPlayer !== ""
+          ? props.currentPlayer === "user"
+            ? "Your Go"
+            : "Enemy Go"
+          : ""}
+      </h3>
     </div>
   );
 }

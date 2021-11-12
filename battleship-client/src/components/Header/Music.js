@@ -7,7 +7,7 @@ const Music = (props) => {
       className={classes.button}
       onClick={() => props.setPlaying((prev) => !prev)}
     >
-      {props.playing ? "pause" : "play "}
+      {props.playing ? "Music: On" : "Music: Off "}
     </button>
   );
 };

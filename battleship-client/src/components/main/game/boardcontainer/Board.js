@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { shoot } from "../../../../store/boardGenerate";
 
 export default function Board(props) {
   return (
@@ -16,11 +14,13 @@ export default function Board(props) {
           <tr key={rowIndex}>
             {row.map((square, colIndex) => (
               <Square
+                restartTimer={props.restartTimer}
                 key={rowIndex + "" + colIndex}
                 x={colIndex}
                 y={rowIndex}
                 square={square}
                 player={props.player}
+                onClickSquare={props.onClickSquare}
               />
             ))}
           </tr>
@@ -32,12 +32,11 @@ export default function Board(props) {
 
 function Square(props) {
   const [bgColor, setBgColor] = useState("grey");
-  const dispatch = useDispatch();
 
   useEffect(() => {
     if (props.square.isShip && !props.square.isSelected) {
       setBgColor("green");
-      if (props.player === "enemy") setBgColor("blue");
+      if (props.player === "enemy") setBgColor("grey");
     } else if (props.square.isShip && props.square.isSelected) {
       setBgColor("red");
     } else if (!props.square.isShip && props.square.isSelected) {
@@ -48,8 +47,11 @@ function Square(props) {
   }, [props.square.isShip, props.square.isSelected, props.player]);
 
   function handleClick() {
-    console.log(`You clicked a square at row ${props.y} column ${props.x}`);
-    dispatch(shoot({ x: props.x, y: props.y, player: props.player }));
+    if (!props.onClickSquare) return;
+    if (!props.square.isSelected) {
+      //props.restartTimer(true);
+      props.onClickSquare(props.x, props.y, props.player);
+    }
   }
 
   return (

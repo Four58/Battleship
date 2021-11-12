@@ -1,5 +1,21 @@
-.control {
-  display: "flex";
-  align-items: "center";
-  flex-direction: "column";
+.bodybox {
+  display: flex;
+  /* align-items: ; */
+  flex-direction: column;
+}
+
+.bodybox h3 {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+}
+
+.eiei {
+  display: flex;
+  justify-content: right;
+  width: 60%;
 }

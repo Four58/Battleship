@@ -1,29 +1,22 @@
 import React from "react";
-import classes from "./UserInfo.module.css";
 import { useSelector } from "react-redux";
+import classes from "./UserInfo.module.css";
 
 export default function UserInfo() {
   const username = useSelector((state) => state.log.username);
-
-  const h3Style = { marginTop: "0.5em", marginBottom: "0.5em" };
+  const userScore = useSelector((state) => state.user);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "bottom-right",
-        flexDirection: "column",
-      }}
-    >
+    <div className={classes.container}>
       <img
         src={`https://avatars.dicebear.com/api/big-smile/${username}.svg`}
-        alt="random avatar"
+        alt="avatar"
         width="50"
         height="50"
       />
-      <div className={classes.control}>
-        <h3 style={h3Style}>Name: {username}</h3>
-        <h3 style={h3Style}>Score: 0</h3>
+      <div className={classes.bodybox}>
+        <h3>Name: {username}</h3>
+        <h3>Score: {userScore.score}</h3>
       </div>
     </div>
   );

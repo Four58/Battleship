@@ -1,7 +1,7 @@
 import classes from "./Admin.module.css";
 import Card from "../components/UI/Card";
 import useInput from "../hooks/useInput";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import AdminControl from "./AdminControl";
 
 const Admin = () => {
@@ -33,13 +33,13 @@ const Admin = () => {
 
         const adminData = [];
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         adminData.push({
           name: data.name,
           pass: data.password,
         });
         setAdminData(adminData);
-        console.log(adminData[0].name);
+        // console.log(adminData[0].name);
       } catch (error) {
         console.log(error.message);
       }
@@ -50,10 +50,10 @@ const Admin = () => {
   const submitHandler = (event) => {
     event.preventDefault();
     if (adminValue !== adminData[0].name || passValue !== adminData[0].pass) {
-      console.log("incorrect");
+      // console.log("incorrect");
       return;
     }
-    console.log("loging");
+    // console.log("loging");
     setLogin(true);
   };
 

@@ -23,7 +23,7 @@ const gameSlice = createSlice({
       }
     },
     createGame(state, action) {
-      // console.log(action.payload);
+      // //console.log(action.payload);
       const { roomId, roomName, description, userId, username } =
         action.payload;
       const newRoom = {
@@ -40,7 +40,7 @@ const gameSlice = createSlice({
           },
         ],
       };
-      console.log("Room id from redux" + newRoom.roomId);
+      //console.log("Room id from redux" + newRoom.roomId);
       // localStorage.setItem("joinGame", "1");
       // localStorage.setItem("Room ID", action.payload.room.roomId);
       state.room = [...state.room, newRoom];
@@ -54,7 +54,7 @@ const gameSlice = createSlice({
         const existingRoomIndex = state.room.findIndex(
           (item) => item.roomId === id
         );
-        console.log(existingRoomIndex);
+        //console.log(existingRoomIndex);
         state.room.splice(existingRoomIndex, 1);
       }
       if (state.userAmount === 2) {

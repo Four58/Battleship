@@ -5,11 +5,11 @@ const exitSlice = createSlice({
   initialState: { exitPress: false },
   reducers: {
     isExit(state) {
-      console.log("is exit");
+      //console.log("is exit");
       state.exitPress = true;
     },
     resetExit(state) {
-      console.log("reset exit");
+      //console.log("reset exit");
       state.exitPress = false;
     },
   },
